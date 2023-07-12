@@ -17,11 +17,9 @@ In this project, in depth and advanced animation will be implemented
 ## Showcase
 ### Animated Builder
 
-<table>
-  <tr>
-    <td><img src="ss/animation.gif" width="100%" height="70%" /></td>
-  </tr>
- </table>
+![alt text](https://github.com/alxayeed/flutter-animation-graphics/blob/main/ss/animation.gif)
+
+
 
 <br>
 
