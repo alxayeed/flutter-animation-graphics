@@ -26,17 +26,17 @@ class _MainAppState extends State<MainApp> with TickerProviderStateMixin {
 
     _rotation = Tween<double>(begin: 0, end: 2 * pi).animate(_controller);
 
-    _controller.addListener(() {
-      setState(() {});
-    });
+    // _controller.addListener(() {
+    //   setState(() {});
+    // });
 
-    _controller.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        _controller.reverse();
-      } else if (status == AnimationStatus.dismissed) {
-        _controller.forward();
-      }
-    });
+    // _controller.addStatusListener((status) {
+    //   if (status == AnimationStatus.completed) {
+    //     _controller.reverse();
+    //   } else if (status == AnimationStatus.dismissed) {
+    //     _controller.forward();
+    //   }
+    // });
     super.initState();
   }
 
@@ -55,26 +55,33 @@ class _MainAppState extends State<MainApp> with TickerProviderStateMixin {
           title: const Text("Animation"),
         ),
         body: Center(
-          child: Transform(
-            alignment: Alignment.center,
-            transform: Matrix4.identity()..rotateY(_rotation.value),
-            child: Container(
-              height: 200,
-              width: 200,
-              decoration: BoxDecoration(
-                  color: Colors.purple,
-                  borderRadius: BorderRadius.circular(10.0),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black,
-                      blurRadius: 5.0,
-                      spreadRadius: 1.0,
-                      blurStyle: BlurStyle.solid,
-                      offset: Offset(1, 1),
-                    ),
-                  ]),
-              child: const Center(child: Text("Animated Builder")),
-            ),
+          child: AnimatedBuilder(
+            animation: _controller,
+            builder: (BuildContext context, Widget? child) {
+              return Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.identity()..rotateY(_rotation.value),
+                child: Container(
+                  height: 200,
+                  width: 200,
+                  decoration: BoxDecoration(
+                      color: Colors.purple,
+                      borderRadius: BorderRadius.circular(10.0),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black,
+                          blurRadius: 5.0,
+                          spreadRadius: 1.0,
+                          blurStyle: BlurStyle.solid,
+                          offset: Offset(1, 1),
+                        ),
+                      ]),
+                  child: const Center(
+                    child: Text("Animated Builder"),
+                  ),
+                ),
+              );
+            },
           ),
         ),
       ),
