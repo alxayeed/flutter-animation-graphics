@@ -30,8 +30,7 @@ In this project, in depth and advanced animation will be implemented
 
 <br>
 
-## Topics
-
+## Topics to have a look
 - Animation
 - Animated builder
 - TickerProviderStateMixin
@@ -41,18 +40,9 @@ In this project, in depth and advanced animation will be implemented
 - Transform
 - Matrix4.identity()
 
-<br>
-
 ## Q/A
 N/A
 
-## Topics to have a look
-- BLoC
-- BLoC debugger info
-- BlocBuilder
-- BlocListener
-- BlocConsumer
-- HydratedBloc
 
 ## Packages and dependencies
 N/A
