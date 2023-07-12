@@ -26,17 +26,7 @@ class _MainAppState extends State<MainApp> with TickerProviderStateMixin {
 
     _rotation = Tween<double>(begin: 0, end: 2 * pi).animate(_controller);
 
-    // _controller.addListener(() {
-    //   setState(() {});
-    // });
-
-    // _controller.addStatusListener((status) {
-    //   if (status == AnimationStatus.completed) {
-    //     _controller.reverse();
-    //   } else if (status == AnimationStatus.dismissed) {
-    //     _controller.forward();
-    //   }
-    // });
+    _controller.repeat();
     super.initState();
   }
 
