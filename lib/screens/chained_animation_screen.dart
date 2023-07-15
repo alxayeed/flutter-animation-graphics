@@ -3,6 +3,7 @@ import 'dart:math' show pi;
 
 enum CircleSide { left, right }
 
+//TODO: extension and it's usage
 extension ToPath on CircleSide {
   Path toPath(Size size) {
     final path = Path();
@@ -31,6 +32,12 @@ extension ToPath on CircleSide {
   }
 }
 
+extension on VoidCallback {
+  Future<void> delayed(Duration duration){
+    return Future.delayed(duration, this);
+  }
+}
+
 class HalfCircleClipper extends CustomClipper<Path> {
   final CircleSide circleSide;
 
@@ -51,6 +58,7 @@ class ChainedAnimationScreen extends StatefulWidget {
   State<ChainedAnimationScreen> createState() => _ChainedAnimationScreenState();
 }
 
+//TODO: mixins and their usages
 class _ChainedAnimationScreenState extends State<ChainedAnimationScreen>
     with TickerProviderStateMixin {
   late AnimationController _rotationAnimationController;
@@ -87,9 +95,7 @@ class _ChainedAnimationScreenState extends State<ChainedAnimationScreen>
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(const Duration(seconds: 1), (){
-    _rotationAnimationController..reset()..forward();
-    });
+    _rotationAnimationController..reset()..forward.delayed(const Duration(seconds: 1));
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
