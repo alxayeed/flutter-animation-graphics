@@ -33,7 +33,7 @@ extension ToPath on CircleSide {
 }
 
 extension on VoidCallback {
-  Future<void> delayed(Duration duration){
+  Future<void> delayed(Duration duration) {
     return Future.delayed(duration, this);
   }
 }
@@ -62,7 +62,9 @@ class ChainedAnimationScreen extends StatefulWidget {
 class _ChainedAnimationScreenState extends State<ChainedAnimationScreen>
     with TickerProviderStateMixin {
   late AnimationController _rotationAnimationController;
+  late AnimationController _flipAnimationController;
   late Animation<double> _rotationAnimation;
+  late Animation<double> _flipAnimation;
 
   @override
   void initState() {
@@ -70,7 +72,6 @@ class _ChainedAnimationScreenState extends State<ChainedAnimationScreen>
       vsync: this,
       duration: const Duration(seconds: 1),
     );
-
 
     _rotationAnimation = Tween<double>(
       begin: 0,
@@ -82,6 +83,48 @@ class _ChainedAnimationScreenState extends State<ChainedAnimationScreen>
       ),
     );
 
+    // flip Animation
+    _flipAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    );
+
+    _flipAnimation = Tween<double>(begin: 0, end: pi).animate(
+      CurvedAnimation(
+          parent: _flipAnimationController, curve: Curves.bounceOut),
+    );
+
+    // status listener for rotation controller
+    _rotationAnimationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _flipAnimation = Tween<double>(
+                begin: _flipAnimation.value, end: _flipAnimation.value + pi)
+            .animate(
+          CurvedAnimation(
+              parent: _flipAnimationController, curve: Curves.bounceOut),
+        );
+        // reset the flip controller and start the animation
+        _flipAnimationController..reset()..forward();
+      }
+    });
+
+    // status listener for flip controller
+    _flipAnimationController.addStatusListener((status) {
+      if(status == AnimationStatus.completed){
+        _rotationAnimation = Tween<double>(
+          begin: _rotationAnimation.value,
+          end: _rotationAnimation.value -(pi / 2),
+        ).animate(
+          CurvedAnimation(
+            parent: _rotationAnimationController,
+            curve: Curves.bounceOut,
+          ),
+        );
+
+        _rotationAnimationController..reset()..forward();
+
+      }
+    });
 
     // _rotationAnimationController.repeat();
     super.initState();
@@ -95,7 +138,9 @@ class _ChainedAnimationScreenState extends State<ChainedAnimationScreen>
 
   @override
   Widget build(BuildContext context) {
-    _rotationAnimationController..reset()..forward.delayed(const Duration(seconds: 1));
+    _rotationAnimationController
+      ..reset()
+      ..forward.delayed(const Duration(seconds: 1));
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -112,28 +157,45 @@ class _ChainedAnimationScreenState extends State<ChainedAnimationScreen>
         const SizedBox(height: 20.0),
         AnimatedBuilder(
           animation: _rotationAnimationController,
-          builder: (context, child){
+          builder: (context, child) {
             return Transform(
               transform: Matrix4.identity()..rotateZ(_rotationAnimation.value),
               alignment: Alignment.center,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ClipPath(
-                    clipper: HalfCircleClipper(circleSide: CircleSide.left),
-                    child: Container(
-                      height: 200,
-                      width: 200,
-                      decoration: const BoxDecoration(color: Colors.blue),
-                    ),
+                  AnimatedBuilder(
+                    animation: _flipAnimationController,
+                    builder: (context, child){
+                      return Transform(
+                        transform: Matrix4.identity()..rotateY(_flipAnimation.value),
+                        alignment: Alignment.centerRight,
+                        child: ClipPath(
+                          clipper: HalfCircleClipper(circleSide: CircleSide.left),
+                          child: Container(
+                            height: 200,
+                            width: 200,
+                            decoration: const BoxDecoration(color: Colors.blue),
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                  ClipPath(
-                    clipper: HalfCircleClipper(circleSide: CircleSide.right),
-                    child: Container(
-                      height: 200,
-                      width: 200,
-                      decoration: const BoxDecoration(color: Colors.yellow),
-                    ),
+                  AnimatedBuilder(
+                    animation: _flipAnimationController,
+                    builder: (BuildContext context, Widget? child) {
+                      return Transform(
+                        transform: Matrix4.identity()..rotateY(_flipAnimation.value),
+                        child: ClipPath(
+                          clipper: HalfCircleClipper(circleSide: CircleSide.right),
+                          child: Container(
+                            height: 200,
+                            width: 200,
+                            decoration: const BoxDecoration(color: Colors.yellow),
+                          ),
+                        ),
+                      );
+                    },
                   )
                 ],
               ),
