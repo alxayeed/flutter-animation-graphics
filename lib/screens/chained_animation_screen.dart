@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'dart:math' show pi;
 
+enum CircleSide { left, right }
 
-enum CircleSide {left, right}
-
-extension ToPath on CircleSide{
-  Path toPath(Size size){
+extension ToPath on CircleSide {
+  Path toPath(Size size) {
     final path = Path();
 
     late Offset offset;
     late bool clockWise;
 
-    switch(this){
+    switch (this) {
       case CircleSide.left:
         path.moveTo(size.width, 0);
         offset = Offset(size.width, size.height);
@@ -21,19 +21,17 @@ extension ToPath on CircleSide{
         clockWise = true;
         break;
     }
-    
-    path.arcToPoint(
-      offset,
-      radius: Radius.elliptical(size.width / 2, size.height / 2),
-      clockwise: clockWise
-    );
+
+    path.arcToPoint(offset,
+        radius: Radius.elliptical(size.width / 2, size.height / 2),
+        clockwise: clockWise);
 
     path.close();
     return path;
   }
 }
 
-class HalfCircleClipper extends CustomClipper<Path>{
+class HalfCircleClipper extends CustomClipper<Path> {
   final CircleSide circleSide;
 
   HalfCircleClipper({required this.circleSide});
@@ -45,9 +43,47 @@ class HalfCircleClipper extends CustomClipper<Path>{
   bool shouldReclip(covariant CustomClipper<Path> oldClipper) => true;
 }
 
-
-class ChainedAnimationScreen extends StatelessWidget {
+class ChainedAnimationScreen extends StatefulWidget {
+  /// This is a widget to demonstrate Chained Animation, Curves and Clippers
   const ChainedAnimationScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ChainedAnimationScreen> createState() => _ChainedAnimationScreenState();
+}
+
+class _ChainedAnimationScreenState extends State<ChainedAnimationScreen>
+    with TickerProviderStateMixin {
+  late AnimationController _rotationAnimationController;
+  late Animation<double> _rotationAnimation;
+
+  @override
+  void initState() {
+    _rotationAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 3),
+    )..forward();
+
+
+    _rotationAnimation = Tween<double>(
+      begin: 0,
+      end: -(pi / 2),
+    ).animate(
+      CurvedAnimation(
+        parent: _rotationAnimationController,
+        curve: Curves.bounceOut,
+      ),
+    );
+
+
+    _rotationAnimationController.repeat();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _rotationAnimationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,30 +101,35 @@ class ChainedAnimationScreen extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 20.0),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ClipPath(
-              clipper: HalfCircleClipper(circleSide: CircleSide.left),
-              child: Container(
-                height: 200,
-                width: 200,
-                decoration: const BoxDecoration(
-                  color: Colors.blue
-                ),
+        AnimatedBuilder(
+          animation: _rotationAnimationController,
+          builder: (context, child){
+            return Transform(
+              transform: Matrix4.identity()..rotateZ(_rotationAnimation.value),
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ClipPath(
+                    clipper: HalfCircleClipper(circleSide: CircleSide.left),
+                    child: Container(
+                      height: 200,
+                      width: 200,
+                      decoration: const BoxDecoration(color: Colors.blue),
+                    ),
+                  ),
+                  ClipPath(
+                    clipper: HalfCircleClipper(circleSide: CircleSide.right),
+                    child: Container(
+                      height: 200,
+                      width: 200,
+                      decoration: const BoxDecoration(color: Colors.yellow),
+                    ),
+                  )
+                ],
               ),
-            ),
-            ClipPath(
-              clipper: HalfCircleClipper(circleSide: CircleSide.right),
-              child: Container(
-                height: 200,
-                width: 200,
-                decoration: const BoxDecoration(
-                    color: Colors.yellow
-                ),
-              ),
-            )
-          ],
+            );
+          },
         )
       ],
     );
