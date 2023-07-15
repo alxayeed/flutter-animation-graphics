@@ -60,8 +60,8 @@ class _ChainedAnimationScreenState extends State<ChainedAnimationScreen>
   void initState() {
     _rotationAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 3),
-    )..forward();
+      duration: const Duration(seconds: 1),
+    );
 
 
     _rotationAnimation = Tween<double>(
@@ -75,7 +75,7 @@ class _ChainedAnimationScreenState extends State<ChainedAnimationScreen>
     );
 
 
-    _rotationAnimationController.repeat();
+    // _rotationAnimationController.repeat();
     super.initState();
   }
 
@@ -87,6 +87,9 @@ class _ChainedAnimationScreenState extends State<ChainedAnimationScreen>
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(const Duration(seconds: 1), (){
+    _rotationAnimationController..reset()..forward();
+    });
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
