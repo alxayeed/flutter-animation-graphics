@@ -23,6 +23,10 @@ In this project, in depth and advanced animation will be implemented
 
 ![alt text](https://github.com/alxayeed/flutter-animation-graphics/blob/main/ss/animation2.gif)
 
+### 3D Animation
+
+![alt text](https://github.com/alxayeed/flutter-animation-graphics/blob/feature/3_3D_animation/ss/3d.gif)
+
 
 
 
@@ -48,6 +52,8 @@ In this project, in depth and advanced animation will be implemented
 - Curves
 - AnimationStatus
 - extension
+- Listenable.merge
+- animation.evaluate
 
   
 ## Q/A
@@ -55,7 +61,7 @@ N/A
 
 
 ## Packages and dependencies
-N/A
+- [vector math](https://pub.dev/packages/vector_math)
 
 ## Issues
 N/A
