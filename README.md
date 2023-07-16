@@ -31,7 +31,7 @@ In this project, in depth and advanced animation will be implemented
 
 ![alt text](https://github.com/alxayeed/flutter-animation-graphics/blob/main/ss/hero.gif)
 
-### Hero Animation
+### Implicit Animation
 
 ![alt text](https://github.com/alxayeed/flutter-animation-graphics/blob/feature/5_implicit_animation/ss/animated_container.gif)
 
