@@ -54,14 +54,11 @@ class _HeroAnimationScreenState extends State<HeroAnimationScreen> {
                     },
                     leading: Hero(
                       tag: person.name,
-                      child: Material(
-                        color: Colors.transparent,
-                        child: Text(
-                          person.icon,
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 40,
-                          ),
+                      child: Text(
+                        person.icon,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 40,
                         ),
                       ),
                     ),
@@ -98,13 +95,25 @@ class PersonDetails extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Hero(
+          flightShuttleBuilder: (flightContext, animation, flightDirection,
+              fromHeroContext, toHeroContext) {
+            switch (flightDirection) {
+              case HeroFlightDirection.push:
+                return Material(
+                  color: Colors.transparent,
+                  child: toHeroContext.widget,
+                );
+              case HeroFlightDirection.pop:
+                return Material(
+                  color: Colors.transparent,
+                  child: fromHeroContext.widget,
+                );
+            }
+          },
           tag: person.name,
-          child: Material(
-            color: Colors.transparent,
-            child: Text(
-              person.icon,
-              style: const TextStyle(fontSize: 50),
-            ),
+          child: Text(
+            person.icon,
+            style: const TextStyle(fontSize: 50),
           ),
         ),
       ),
