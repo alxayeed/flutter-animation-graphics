@@ -141,68 +141,80 @@ class _ChainedAnimationScreenState extends State<ChainedAnimationScreen>
     _rotationAnimationController
       ..reset()
       ..forward.delayed(const Duration(seconds: 1));
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        const SizedBox(height: 20.0),
-        const Center(
-          child: Text(
-            'Chained Animations',
-            style: TextStyle(
-              fontSize: 24.0,
-              fontWeight: FontWeight.bold,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Animations"),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          iconSize: 30.0,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          const SizedBox(height: 20.0),
+          const Center(
+            child: Text(
+              'Chained Animations',
+              style: TextStyle(
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-        ),
-        const SizedBox(height: 20.0),
-        AnimatedBuilder(
-          animation: _rotationAnimationController,
-          builder: (context, child) {
-            return Transform(
-              transform: Matrix4.identity()..rotateZ(_rotationAnimation.value),
-              alignment: Alignment.center,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AnimatedBuilder(
-                    animation: _flipAnimationController,
-                    builder: (context, child){
-                      return Transform(
-                        transform: Matrix4.identity()..rotateY(_flipAnimation.value),
-                        alignment: Alignment.centerRight,
-                        child: ClipPath(
-                          clipper: HalfCircleClipper(circleSide: CircleSide.left),
-                          child: Container(
-                            height: 200,
-                            width: 200,
-                            decoration: const BoxDecoration(color: Colors.blue),
+          const SizedBox(height: 20.0),
+          AnimatedBuilder(
+            animation: _rotationAnimationController,
+            builder: (context, child) {
+              return Transform(
+                transform: Matrix4.identity()..rotateZ(_rotationAnimation.value),
+                alignment: Alignment.center,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AnimatedBuilder(
+                      animation: _flipAnimationController,
+                      builder: (context, child){
+                        return Transform(
+                          transform: Matrix4.identity()..rotateY(_flipAnimation.value),
+                          alignment: Alignment.centerRight,
+                          child: ClipPath(
+                            clipper: HalfCircleClipper(circleSide: CircleSide.left),
+                            child: Container(
+                              height: 200,
+                              width: 200,
+                              decoration: const BoxDecoration(color: Colors.blue),
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                  AnimatedBuilder(
-                    animation: _flipAnimationController,
-                    builder: (BuildContext context, Widget? child) {
-                      return Transform(
-                        transform: Matrix4.identity()..rotateY(_flipAnimation.value),
-                        child: ClipPath(
-                          clipper: HalfCircleClipper(circleSide: CircleSide.right),
-                          child: Container(
-                            height: 200,
-                            width: 200,
-                            decoration: const BoxDecoration(color: Colors.yellow),
+                        );
+                      },
+                    ),
+                    AnimatedBuilder(
+                      animation: _flipAnimationController,
+                      builder: (BuildContext context, Widget? child) {
+                        return Transform(
+                          transform: Matrix4.identity()..rotateY(_flipAnimation.value),
+                          child: ClipPath(
+                            clipper: HalfCircleClipper(circleSide: CircleSide.right),
+                            child: Container(
+                              height: 200,
+                              width: 200,
+                              decoration: const BoxDecoration(color: Colors.yellow),
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  )
-                ],
-              ),
-            );
-          },
-        )
-      ],
+                        );
+                      },
+                    )
+                  ],
+                ),
+              );
+            },
+          )
+        ],
+      ),
     );
   }
 }
