@@ -2,6 +2,7 @@ import 'package:animation_graphics/screens/3d_animation.dart';
 import 'package:animation_graphics/screens/animated_builder.dart';
 import 'package:animation_graphics/screens/chained_animation_screen.dart';
 import 'package:animation_graphics/screens/hero_animation_screen.dart';
+import 'package:animation_graphics/screens/implicit_animation.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' show pi;
 //TODO: show?
@@ -31,6 +32,10 @@ class MainApp extends StatelessWidget {
       {
         "name":  "Hero Animation",
         "screen": HeroAnimationScreen()
+      },
+      {
+        "name":  "Implicit Animation",
+        "screen": ImplicitAnimationScreen()
       },
     ];
     return MaterialApp(
