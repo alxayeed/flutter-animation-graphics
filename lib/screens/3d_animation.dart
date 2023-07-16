@@ -58,103 +58,115 @@ class _ThreeDAnimationScreenState extends State<ThreeDAnimationScreen>
       ..reset()
       ..repeat();
 
-    return Column(
-      children: [
-        const SizedBox(height: 20.0),
-        const Center(
-          child: Text(
-            '3D Animations',
-            style: TextStyle(
-              fontSize: 24.0,
-              fontWeight: FontWeight.bold,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Animations"),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          iconSize: 30.0,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+      body: Column(
+        children: [
+          const SizedBox(height: 20.0),
+          const Center(
+            child: Text(
+              '3D Animations',
+              style: TextStyle(
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-        ),
-        const SizedBox(height: 200.0),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AnimatedBuilder(
-              animation: Listenable.merge([
-                _xController,
-                _yController,
-                _zController,
-              ]),
-              builder: (BuildContext context, Widget? child) {
-                return Transform(
-                  alignment: Alignment.center,
-                  transform: Matrix4.identity()
-                    ..rotateX(_animation.evaluate(_xController))
-                    ..rotateY(_animation.evaluate(_yController))
-                    ..rotateZ(_animation.evaluate(_zController)),
-                  child: Stack(
-                    children: [
-                      //front
-                      Container(
-                        height: heightAndWeight,
-                        width: heightAndWeight,
-                        color: Colors.purple,
-                      ),
-                      // back
-                      Transform(
-                        alignment: Alignment.center,
-                        transform: Matrix4.identity()..translate(
-                          Vector3(0, 0, -heightAndWeight)
-                        ),
-                        child: Container(
+          const SizedBox(height: 200.0),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AnimatedBuilder(
+                animation: Listenable.merge([
+                  _xController,
+                  _yController,
+                  _zController,
+                ]),
+                builder: (BuildContext context, Widget? child) {
+                  return Transform(
+                    alignment: Alignment.center,
+                    transform: Matrix4.identity()
+                      ..rotateX(_animation.evaluate(_xController))
+                      ..rotateY(_animation.evaluate(_yController))
+                      ..rotateZ(_animation.evaluate(_zController)),
+                    child: Stack(
+                      children: [
+                        //front
+                        Container(
                           height: heightAndWeight,
                           width: heightAndWeight,
-                          color: Colors.blue,
+                          color: Colors.purple,
                         ),
-                      ),
-                      // left
-                      Transform(
-                        alignment: Alignment.centerLeft,
-                        transform: Matrix4.identity()..rotateY(pi / 2.0),
-                        child: Container(
-                          height: heightAndWeight,
-                          width: heightAndWeight,
-                          color: Colors.orange,
+                        // back
+                        Transform(
+                          alignment: Alignment.center,
+                          transform: Matrix4.identity()..translate(
+                            Vector3(0, 0, -heightAndWeight)
+                          ),
+                          child: Container(
+                            height: heightAndWeight,
+                            width: heightAndWeight,
+                            color: Colors.blue,
+                          ),
                         ),
-                      ),
-                      // right
-                      Transform(
-                        alignment: Alignment.centerRight,
-                        transform: Matrix4.identity()..rotateY(- pi / 2),
-                        child: Container(
-                          height: heightAndWeight,
-                          width: heightAndWeight,
-                          color: Colors.cyan,
+                        // left
+                        Transform(
+                          alignment: Alignment.centerLeft,
+                          transform: Matrix4.identity()..rotateY(pi / 2.0),
+                          child: Container(
+                            height: heightAndWeight,
+                            width: heightAndWeight,
+                            color: Colors.orange,
+                          ),
                         ),
-                      ),
-                      // top
-                      Transform(
-                        alignment: Alignment.topCenter,
-                        transform: Matrix4.identity()..rotateX(- pi / 2),
-                        child: Container(
-                          height: heightAndWeight,
-                          width: heightAndWeight,
-                          color: Colors.greenAccent,
+                        // right
+                        Transform(
+                          alignment: Alignment.centerRight,
+                          transform: Matrix4.identity()..rotateY(- pi / 2),
+                          child: Container(
+                            height: heightAndWeight,
+                            width: heightAndWeight,
+                            color: Colors.cyan,
+                          ),
                         ),
-                      ),
-                      // bottom
-                      Transform(
-                        alignment: Alignment.bottomCenter,
-                        transform: Matrix4.identity()..rotateX(pi / 2),
-                        child: Container(
-                          height: heightAndWeight,
-                          width: heightAndWeight,
-                          color: Colors.green,
+                        // top
+                        Transform(
+                          alignment: Alignment.topCenter,
+                          transform: Matrix4.identity()..rotateX(- pi / 2),
+                          child: Container(
+                            height: heightAndWeight,
+                            width: heightAndWeight,
+                            color: Colors.greenAccent,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            )
-          ],
-        )
-      ],
+                        // bottom
+                        Transform(
+                          alignment: Alignment.bottomCenter,
+                          transform: Matrix4.identity()..rotateX(pi / 2),
+                          child: Container(
+                            height: heightAndWeight,
+                            width: heightAndWeight,
+                            color: Colors.green,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              )
+            ],
+          )
+        ],
+      ),
     );
   }
 }

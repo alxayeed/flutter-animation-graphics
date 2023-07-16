@@ -27,6 +27,10 @@ In this project, in depth and advanced animation will be implemented
 
 ![alt text](https://github.com/alxayeed/flutter-animation-graphics/blob/feature/3_3D_animation/ss/3d.gif)
 
+### Hero Animation
+
+![alt text](https://github.com/alxayeed/flutter-animation-graphics/blob/main/ss/hero.gif)
+
 
 
 
@@ -54,6 +58,10 @@ In this project, in depth and advanced animation will be implemented
 - extension
 - Listenable.merge
 - animation.evaluate
+- Hero
+- ScaleTransition
+- CurveTween
+- flightShuttleBuilder
 
   
 ## Q/A

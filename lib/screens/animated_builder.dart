@@ -34,35 +34,47 @@ class _AnimatedBuilderScreen extends State<AnimatedBuilderScreen> with TickerPro
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-          child: AnimatedBuilder(
-            animation: _controller,
-            builder: (BuildContext context, Widget? child) {
-              return Transform(
-                alignment: Alignment.center,
-                transform: Matrix4.identity()..rotateY(_rotation.value),
-                child: Container(
-                  height: 200,
-                  width: 200,
-                  decoration: BoxDecoration(
-                      color: Colors.purple,
-                      borderRadius: BorderRadius.circular(10.0),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black,
-                          blurRadius: 5.0,
-                          spreadRadius: 1.0,
-                          blurStyle: BlurStyle.solid,
-                          offset: Offset(1, 1),
-                        ),
-                      ]),
-                  child: const Center(
-                    child: Text("Animated Builder"),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Animations"),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          iconSize: 30.0,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+      body: Center(
+            child: AnimatedBuilder(
+              animation: _controller,
+              builder: (BuildContext context, Widget? child) {
+                return Transform(
+                  alignment: Alignment.center,
+                  transform: Matrix4.identity()..rotateY(_rotation.value),
+                  child: Container(
+                    height: 200,
+                    width: 200,
+                    decoration: BoxDecoration(
+                        color: Colors.purple,
+                        borderRadius: BorderRadius.circular(10.0),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black,
+                            blurRadius: 5.0,
+                            spreadRadius: 1.0,
+                            blurStyle: BlurStyle.solid,
+                            offset: Offset(1, 1),
+                          ),
+                        ]),
+                    child: const Center(
+                      child: Text("Animated Builder"),
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
-        );
+    );
   }
 }
