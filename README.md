@@ -1,7 +1,5 @@
 # Animation in flutter
 
-### Flutter animation in depth
-
 In this project, in depth and advanced animation will be implemented
 
 
@@ -17,7 +15,14 @@ In this project, in depth and advanced animation will be implemented
 ## Showcase
 ### Animated Builder
 
+
+
 ![alt text](https://github.com/alxayeed/flutter-animation-graphics/blob/main/ss/animation.gif)
+
+### Chained Animation
+
+![alt text](https://github.com/alxayeed/flutter-animation-graphics/blob/main/ss/animation2.gif)
+
 
 
 
@@ -39,7 +44,12 @@ In this project, in depth and advanced animation will be implemented
 - AnimatedBuilder
 - Transform
 - Matrix4.identity()
+- CurvedAnimation
+- Curves
+- AnimationStatus
+- extension
 
+  
 ## Q/A
 N/A
 
