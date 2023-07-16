@@ -9,9 +9,10 @@ class ImplicitAnimationScreen extends StatefulWidget {
 }
 
 class _ImplicitAnimationScreenState extends State<ImplicitAnimationScreen> {
-  bool isZoomed = false;
-  double widthSize = 200.0;
-  String buttonTitle = "Zoom In";
+  bool _isZoomed = false;
+  double _widthSize = 200.0;
+  String _buttonTitle = "Zoom In";
+  Curve _curve = Curves.bounceOut;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +28,7 @@ class _ImplicitAnimationScreenState extends State<ImplicitAnimationScreen> {
         ),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const SizedBox(height: 20.0),
           const Center(
@@ -39,19 +41,22 @@ class _ImplicitAnimationScreenState extends State<ImplicitAnimationScreen> {
             ),
           ),
           const SizedBox(height: 20.0),
-          Container(
-            width: widthSize,
+          AnimatedContainer(
+            width: _widthSize,
+            duration: const Duration(milliseconds: 370),
+            curve: _curve,
             child: Image.asset("assets/images/cat.jpg"),
           ),
           TextButton(
             onPressed: () {
               setState(() {
-                isZoomed = !isZoomed;
-                buttonTitle = isZoomed ? "Zoom Out" : "Zoom In";
-                widthSize = isZoomed ? MediaQuery.of(context).size.width : 200.0;
+                _isZoomed = !_isZoomed;
+                _buttonTitle = _isZoomed ? "Zoom Out" : "Zoom In";
+                _widthSize = _isZoomed ? MediaQuery.of(context).size.width : 200.0;
+                _curve = _isZoomed ? Curves.bounceInOut : Curves.bounceOut;
               });
             },
-            child: Text(buttonTitle),
+            child: Text(_buttonTitle),
           ),
         ],
       ),
