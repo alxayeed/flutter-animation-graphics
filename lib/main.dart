@@ -1,6 +1,7 @@
 import 'package:animation_graphics/screens/3d_animation.dart';
 import 'package:animation_graphics/screens/animated_builder.dart';
 import 'package:animation_graphics/screens/chained_animation_screen.dart';
+import 'package:animation_graphics/screens/hero_animation_screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' show pi;
 //TODO: show?
@@ -29,7 +30,7 @@ class MainApp extends StatelessWidget {
       },
       {
         "name":  "Hero Animation",
-        "screen": AnimatedBuilderScreen()
+        "screen": HeroAnimationScreen()
       },
     ];
     return MaterialApp(
@@ -49,8 +50,6 @@ class MainApp extends StatelessWidget {
           child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-              mainAxisSpacing: 2.0,
-              crossAxisSpacing: 2.0,
             ),
               itemCount: items.length,
               itemBuilder: (context, index) {
