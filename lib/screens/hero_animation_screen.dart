@@ -52,11 +52,17 @@ class _HeroAnimationScreenState extends State<HeroAnimationScreen> {
                         ),
                       );
                     },
-                    leading: Text(
-                      person.icon,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 40,
+                    leading: Hero(
+                      tag: person.name,
+                      child: Material(
+                        color: Colors.transparent,
+                        child: Text(
+                          person.icon,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 40,
+                          ),
+                        ),
                       ),
                     ),
                     title: Text(person.name),
@@ -91,17 +97,31 @@ class PersonDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(person.icon),
+        title: Hero(
+          tag: person.name,
+          child: Material(
+            color: Colors.transparent,
+            child: Text(
+              person.icon,
+              style: const TextStyle(fontSize: 50),
+            ),
+          ),
+        ),
       ),
       body: Center(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 20.0),
-            Text(person.name, style: const TextStyle(fontSize: 25)),
-            const SizedBox(height: 20.0),
+            Text(person.name,
+                style: const TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                )),
+            const SizedBox(height: 10.0),
             Text(
               "${person.age} years old",
-              style: const TextStyle(fontSize: 25),
+              style: const TextStyle(fontSize: 20),
             ),
           ],
         ),
