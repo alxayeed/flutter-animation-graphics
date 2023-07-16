@@ -99,9 +99,17 @@ class PersonDetails extends StatelessWidget {
               fromHeroContext, toHeroContext) {
             switch (flightDirection) {
               case HeroFlightDirection.push:
-                return Material(
-                  color: Colors.transparent,
-                  child: toHeroContext.widget,
+                return ScaleTransition(
+                  scale:
+                      animation.drive(Tween<double>(begin: 0.0, end: 1.0).chain(
+                    CurveTween(
+                      curve: Curves.bounceInOut,
+                    ),
+                  )),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: toHeroContext.widget,
+                  ),
                 );
               case HeroFlightDirection.pop:
                 return Material(
