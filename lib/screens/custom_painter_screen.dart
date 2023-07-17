@@ -8,7 +8,38 @@ class CustomPainterScreen extends StatefulWidget {
   State<CustomPainterScreen> createState() => _CustomPainterScreenState();
 }
 
-class _CustomPainterScreenState extends State<CustomPainterScreen> {
+class _CustomPainterScreenState extends State<CustomPainterScreen> with TickerProviderStateMixin{
+  late AnimationController _sidesController;
+  late Animation<int> _sidesAnimation;
+
+  @override
+  void initState() {
+    _sidesController = AnimationController(
+        vsync: this,
+        duration: const Duration(seconds: 3)
+    );
+
+    _sidesAnimation = IntTween(
+      begin: 3,
+      end: 10
+    ).animate(_sidesController);
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _sidesController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    _sidesController.repeat(reverse: true);
+    super.didChangeDependencies();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,12 +68,20 @@ class _CustomPainterScreenState extends State<CustomPainterScreen> {
           ),
           const SizedBox(height: 20.0),
           Expanded(
-            child: CustomPaint(
-              painter: Polygon(sides: 3),
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-              ),
+            child: AnimatedBuilder(
+              animation: Listenable.merge([
+                _sidesController,
+              ]),
+              builder: (BuildContext context, Widget? child) {
+                return CustomPaint(
+                  painter: Polygon(sides: _sidesAnimation.value),
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                  ),
+                );
+              },
+
             ),
           ),
         ],
