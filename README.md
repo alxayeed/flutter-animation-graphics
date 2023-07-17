@@ -35,6 +35,10 @@ In this project, in depth and advanced animation will be implemented
 
 ![alt text](https://github.com/alxayeed/flutter-animation-graphics/blob/feature/5_implicit_animation/ss/animated_container.gif)
 
+### Tween Animation Builder
+
+![alt text](https://github.com/alxayeed/flutter-animation-graphics/blob/feature/6_tween_animation_builder/ss/tween_color.gif)
+
 
 
 
@@ -67,6 +71,9 @@ In this project, in depth and advanced animation will be implemented
 - CurveTween
 - flightShuttleBuilder
 - AnimatedContainer and other AnimatedWidgets
+- TweenAnimationBuilder
+- ColorTween(and others)
+- ColorFiltered
 
   
 ## Q/A
