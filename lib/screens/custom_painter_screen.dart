@@ -8,21 +8,28 @@ class CustomPainterScreen extends StatefulWidget {
   State<CustomPainterScreen> createState() => _CustomPainterScreenState();
 }
 
-class _CustomPainterScreenState extends State<CustomPainterScreen> with TickerProviderStateMixin{
+class _CustomPainterScreenState extends State<CustomPainterScreen>
+    with TickerProviderStateMixin {
   late AnimationController _sidesController;
   late Animation<int> _sidesAnimation;
 
+  late AnimationController _sizeController;
+  late Animation _sizeAnimation;
+
   @override
   void initState() {
-    _sidesController = AnimationController(
-        vsync: this,
-        duration: const Duration(seconds: 3)
-    );
+    _sidesController =
+        AnimationController(vsync: this, duration: const Duration(seconds: 3));
 
-    _sidesAnimation = IntTween(
-      begin: 3,
-      end: 10
-    ).animate(_sidesController);
+    _sidesAnimation = IntTween(begin: 3, end: 10).animate(_sidesController);
+
+    // radius
+    _sizeController =
+        AnimationController(vsync: this, duration: const Duration(seconds: 3));
+
+    _sizeAnimation = Tween(begin: 20.0, end: 400.0)
+        .chain(CurveTween(curve: Curves.bounceInOut))
+        .animate(_sizeController);
 
     super.initState();
   }
@@ -30,15 +37,16 @@ class _CustomPainterScreenState extends State<CustomPainterScreen> with TickerPr
   @override
   void dispose() {
     _sidesController.dispose();
+    _sizeController.dispose();
     super.dispose();
   }
 
   @override
   void didChangeDependencies() {
     _sidesController.repeat(reverse: true);
+    _sizeController.repeat(reverse: true);
     super.didChangeDependencies();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -71,17 +79,17 @@ class _CustomPainterScreenState extends State<CustomPainterScreen> with TickerPr
             child: AnimatedBuilder(
               animation: Listenable.merge([
                 _sidesController,
+                _sizeController,
               ]),
               builder: (BuildContext context, Widget? child) {
                 return CustomPaint(
                   painter: Polygon(sides: _sidesAnimation.value),
                   child: SizedBox(
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
+                    height: _sizeAnimation.value,
+                    width: _sizeAnimation.value,
                   ),
                 );
               },
-
             ),
           ),
         ],
@@ -98,10 +106,10 @@ class Polygon extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var paint = Paint()
-    ..color = Colors.black
+      ..color = Colors.black
       ..style = PaintingStyle.stroke
-    ..strokeCap = StrokeCap.round
-    ..strokeWidth = 3;
+      ..strokeCap = StrokeCap.round
+      ..strokeWidth = 3;
 
     var path = Path();
 
@@ -116,7 +124,7 @@ class Polygon extends CustomPainter {
 
     List<double> angles = List.generate(sides, (index) => index * angle);
 
-    for (angle in angles){
+    for (angle in angles) {
       final x = center.dx + radius * cos(angle);
       final y = center.dy + radius * sin(angle);
 
@@ -125,7 +133,6 @@ class Polygon extends CustomPainter {
 
     path.close();
     canvas.drawPath(path, paint);
-
   }
 
   @override
