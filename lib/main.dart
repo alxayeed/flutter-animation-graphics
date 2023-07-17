@@ -1,6 +1,7 @@
 import 'package:animation_graphics/screens/3d_animation.dart';
 import 'package:animation_graphics/screens/animated_builder.dart';
 import 'package:animation_graphics/screens/chained_animation_screen.dart';
+import 'package:animation_graphics/screens/custom_painter_screen.dart';
 import 'package:animation_graphics/screens/hero_animation_screen.dart';
 import 'package:animation_graphics/screens/implicit_animation.dart';
 import 'package:animation_graphics/screens/tween_animation_builder_screen.dart';
@@ -42,6 +43,10 @@ class MainApp extends StatelessWidget {
       {
         "name":  "Tween Animation Builder",
         "screen": TweenAnimationBuilderScreen()
+      },
+      {
+        "name":  "Custom painter and polygons",
+        "screen": CustomPainterScreen()
       },
     ];
     return MaterialApp(
