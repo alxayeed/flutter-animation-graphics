@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
 
 class TweenAnimationBuilderScreen extends StatefulWidget {
   const TweenAnimationBuilderScreen({Key? key}) : super(key: key);
 
   @override
-  State<TweenAnimationBuilderScreen> createState() => _TweenAnimationBuilderScreenState();
+  State<TweenAnimationBuilderScreen> createState() =>
+      _TweenAnimationBuilderScreenState();
 }
 
-class CircleClipper extends CustomClipper<Path>{
+class CircleClipper extends CustomClipper<Path> {
   const CircleClipper();
 
   @override
@@ -15,8 +17,8 @@ class CircleClipper extends CustomClipper<Path>{
     var path = Path();
 
     var rect = Rect.fromCircle(
-        center: Offset(size.width / 2, size.height / 2),
-        radius: size.width / 2,
+      center: Offset(size.width / 2, size.height / 2),
+      radius: size.width / 2,
     );
 
     path.addOval(rect);
@@ -26,13 +28,18 @@ class CircleClipper extends CustomClipper<Path>{
 
   @override
   bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
-
 }
 
-class _TweenAnimationBuilderScreenState extends State<TweenAnimationBuilderScreen> {
+Color getRandomColor() {
+  return Color(0xFF000000 + math.Random().nextInt(0x00FFFFFF));
+}
+
+class _TweenAnimationBuilderScreenState
+    extends State<TweenAnimationBuilderScreen> {
   @override
   Widget build(BuildContext context) {
-    double _heightAndWidth = MediaQuery.of(context).size.width;
+    double heightAndWidth = MediaQuery.of(context).size.width;
+    Color color = getRandomColor();
 
     return Scaffold(
       appBar: AppBar(
@@ -62,12 +69,32 @@ class _TweenAnimationBuilderScreenState extends State<TweenAnimationBuilderScree
           ClipPath(
             clipper: const CircleClipper(),
             child: Center(
-              child: Container(
-                height: _heightAndWidth,
-                width: _heightAndWidth,
-                color: Colors.purple,
+                child: TweenAnimationBuilder(
+              tween: ColorTween(
+                begin: getRandomColor() ,
+                end: color,
               ),
-            ),
+              onEnd: (){
+                setState(() {
+                  color = getRandomColor();
+                });
+              },
+              duration: const Duration(seconds: 1),
+              child: Container(
+                height: heightAndWidth,
+                width: heightAndWidth,
+                color: Colors.red,
+              ),
+              builder: (BuildContext context, Color? value, Widget? child) {
+                return ColorFiltered(
+                  colorFilter: ColorFilter.mode(
+                    value!,
+                    BlendMode.srcATop,
+                  ),
+                  child: child,
+                );
+              },
+            )),
           )
         ],
       ),
