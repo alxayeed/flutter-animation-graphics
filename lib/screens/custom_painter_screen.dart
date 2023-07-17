@@ -16,6 +16,9 @@ class _CustomPainterScreenState extends State<CustomPainterScreen>
   late AnimationController _sizeController;
   late Animation _sizeAnimation;
 
+  late AnimationController _rotationController;
+  late Animation _rotationAnimation;
+
   @override
   void initState() {
     _sidesController =
@@ -31,6 +34,16 @@ class _CustomPainterScreenState extends State<CustomPainterScreen>
         .chain(CurveTween(curve: Curves.bounceInOut))
         .animate(_sizeController);
 
+    // rotation
+    _rotationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 3),
+    );
+
+    _rotationAnimation = Tween(begin: 0.0, end: 2 * pi)
+    .chain(CurveTween(curve: Curves.easeInOut))
+        .animate(_rotationController);
+
     super.initState();
   }
 
@@ -38,6 +51,7 @@ class _CustomPainterScreenState extends State<CustomPainterScreen>
   void dispose() {
     _sidesController.dispose();
     _sizeController.dispose();
+    _rotationController.dispose();
     super.dispose();
   }
 
@@ -45,6 +59,7 @@ class _CustomPainterScreenState extends State<CustomPainterScreen>
   void didChangeDependencies() {
     _sidesController.repeat(reverse: true);
     _sizeController.repeat(reverse: true);
+    _rotationController.repeat(reverse: true);
     super.didChangeDependencies();
   }
 
@@ -80,13 +95,22 @@ class _CustomPainterScreenState extends State<CustomPainterScreen>
               animation: Listenable.merge([
                 _sidesController,
                 _sizeController,
+                _rotationController,
               ]),
               builder: (BuildContext context, Widget? child) {
-                return CustomPaint(
-                  painter: Polygon(sides: _sidesAnimation.value),
-                  child: SizedBox(
-                    height: _sizeAnimation.value,
-                    width: _sizeAnimation.value,
+                return Transform(
+                  alignment: Alignment.center,
+                  transform: Matrix4.identity()
+                    ..rotateX(_rotationAnimation.value)
+                    ..rotateY(_rotationAnimation.value)
+                ..rotateZ(_rotationAnimation.value),
+
+                  child: CustomPaint(
+                    painter: Polygon(sides: _sidesAnimation.value),
+                    child: SizedBox(
+                      height: _sizeAnimation.value,
+                      width: _sizeAnimation.value,
+                    ),
                   ),
                 );
               },
@@ -107,7 +131,7 @@ class Polygon extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     var paint = Paint()
       ..color = Colors.black
-      ..style = PaintingStyle.stroke
+      ..style = PaintingStyle.fill
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 3;
 
