@@ -39,6 +39,10 @@ In this project, in depth and advanced animation will be implemented
 
 ![alt text](https://github.com/alxayeed/flutter-animation-graphics/blob/feature/6_tween_animation_builder/ss/tween_color.gif)
 
+### Custom Painter(Polygon)
+
+![alt text](https://github.com/alxayeed/flutter-animation-graphics/blob/feature/7_custom_painter/ss/polygon.gif)
+
 
 
 
@@ -74,6 +78,10 @@ In this project, in depth and advanced animation will be implemented
 - TweenAnimationBuilder
 - ColorTween(and others)
 - ColorFiltered
+- CustomPaint
+- CustomPainter
+- Paint
+- Path
 
   
 ## Q/A
