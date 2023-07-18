@@ -56,7 +56,7 @@ In this project, in depth and advanced animation will be implemented
 <br>
 
 ## Topics to have a look
-- Animation
+- [Animation](https://docs.flutter.dev/ui/animations/tutorial#animationdouble)
 - Animated builder
 - TickerProviderStateMixin
 - AnimationController
